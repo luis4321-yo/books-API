@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Books & Prices</title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <header>
+    <h1>Books &amp; Prices</h1>
+    <p class="subtitle">Search books across Open Library and Google Books</p>
+  </header>
+
+  <main>
+    <form action="/search" method="GET" class="search-form" id="searchForm">
+      <input
+        type="text"
+        name="q"
+        value="<%= query %>"
+        placeholder="Search by title, author, or keyword..."
+        required
+        autofocus
+      />
+      <button type="submit" id="searchBtn">Search</button>
+    </form>
+
+    <div id="loading" class="loading hidden">
+      <div class="spinner"></div>
+      <p>Fetching books and prices...</p>
+    </div>
+  </main>
+
+  <script>
+    // Show loading state when form submits
+    document.getElementById('searchForm').addEventListener('submit', function() {
+      document.getElementById('loading').classList.remove('hidden');
+      document.getElementById('searchBtn').disabled = true;
+      document.getElementById('searchBtn').textContent = 'Searching...';
+    });
+  </script>
+</body>
+</html>

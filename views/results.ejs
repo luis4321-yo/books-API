@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Results for "<%= query %>" - Books & Prices</title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <header>
+    <h1><a href="/" class="header-link">Books &amp; Prices</a></h1>
+  </header>
+
+  <main>
+    <form action="/search" method="GET" class="search-form" id="searchForm">
+      <input type="text" name="q" value="<%= query %>" required />
+      <button type="submit" id="searchBtn">Search</button>
+    </form>
+
+    <% if (empty) { %>
+      <div class="empty-state">
+        <h2>No results found</h2>
+        <p>We couldn't find any books matching "<strong><%= query %></strong>".</p>
+        <p>Try a different search term or check your spelling.</p>
+        <a href="/" class="btn">Try another search</a>
+      </div>
+    <% } else { %>
+      <p class="results-summary">Showing <%= books.length %> result<%= books.length === 1 ? '' : 's' %> for "<strong><%= query %></strong>"</p>
+
+      <div class="book-grid">
+        <% books.forEach(function(book) { %>
+          <div class="book-card">
+            <% if (book.coverUrl) { %>
+              <img src="<%= book.coverUrl %>" alt="Cover of <%= book.title %>" class="book-cover" onerror="this.style.display='none'" />
+            <% } else { %>
+              <div class="no-cover">No Cover</div>
+            <% } %>
+
+            <div class="book-info">
+              <h3 class="book-title"><%= book.title %></h3>
+              <p class="book-author">by <%= book.authors %></p>
+
+              <div class="badge badge-<%= book.classification.toLowerCase().replace(/\s+/g, '-') %>">
+                <%= book.classification %>
+              </div>
+
+              <div class="info-section">
+                <h4>Open Library</h4>
+                <ul>
+                  <% if (book.firstPublishedYear) { %>
+                    <li><strong>Published:</strong> <%= book.firstPublishedYear %></li>
+                  <% } %>
+                  <% if (book.pageCount) { %>
+                    <li><strong>Pages:</strong> <%= book.pageCount %></li>
+                  <% } %>
+                  <% if (book.rating !== null) { %>
+                    <li><strong>Rating:</strong> <%= book.rating %>/5 (<%= book.ratingsCount %> reviews)</li>
+                  <% } else { %>
+                    <li><strong>Rating:</strong> Not rated</li>
+                  <% } %>
+                </ul>
+              </div>
+
+              <div class="info-section">
+                <h4>Google Books</h4>
+                <ul>
+                  <li><strong>Price:</strong> <%= book.priceDisplay %></li>
+                  <li><strong>Available:</strong> <%= book.available ? 'Yes, for sale' : 'Not for sale' %></li>
+                  <% if (book.categories) { %>
+                    <li><strong>Categories:</strong> <%= book.categories %></li>
+                  <% } %>
+                </ul>
+              </div>
+
+              <% if (book.previewLink) { %>
+                <a href="<%= book.previewLink %>" target="_blank" rel="noopener" class="btn btn-small">Preview</a>
+              <% } %>
+            </div>
+          </div>
+        <% }); %>
+      </div>
+    <% } %>
+
+    <div id="loading" class="loading hidden">
+      <div class="spinner"></div>
+      <p>Searching...</p>
+    </div>
+  </main>
+
+  <script>
+    document.getElementById('searchForm').addEventListener('submit', function() {
+      document.getElementById('loading').classList.remove('hidden');
+      document.getElementById('searchBtn').disabled = true;
+    });
+  </script>
+</body>
+</html>
