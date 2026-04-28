@@ -8,10 +8,6 @@ When a user types a search word (like "harry potter" or "tolkien"), the app find
 
 The cool part is that this info comes from **two different websites (APIs)**. The app gets the data from both, mixes it together, and shows it to the user as one clean list of book cards.
 
-**Track:** MIS (Management Information Systems)
-
-This project fits the MIS track because it joins data from two sources, adds a computed value (book classification), and shows everything in a clear table-style layout for easy reading and decision-making.
-
 ---
 
 ## 2. APIs Used
